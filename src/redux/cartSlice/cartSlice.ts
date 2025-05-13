@@ -11,11 +11,13 @@ interface ICartItem {
 interface CartState {
     items: ICartItem[];
     totalPrice: number;
+    itemAddedIds: number[];
 }
 
 const initialState: CartState = {
     items: [],
     totalPrice: 0,
+    itemAddedIds: [],
 };
 function calculateTotalPrice(items: ICartItem[]) {
     return items.reduce((sum, item) => sum + item.price * item.count, 0);
@@ -34,6 +36,10 @@ const cartSlice = createSlice({
                 state.items.push({ ...action.payload, count: 1 });
             }
             state.totalPrice = calculateTotalPrice(state.items);
+            if(!state.itemAddedIds.includes(action.payload.id)) {
+                state.itemAddedIds.push(action.payload.id);
+            }
+
         },
         removeFromCart: (state, action) => {
             const item = state.items.find(i => i.id === action.payload.id);
@@ -44,6 +50,7 @@ const cartSlice = createSlice({
                 }
             }
             state.totalPrice = calculateTotalPrice(state.items);
+           state.itemAddedIds = state.itemAddedIds.filter(id => id !== action.payload.id);
 
         }
     }

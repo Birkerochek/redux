@@ -6,7 +6,7 @@ import { Todo } from "./Todo/Todo";
 export default function Home() {
   return (
     <div>
-      <Link href={'CartPage'}>Корзина</Link>
+      <Link href={'goods'}>Корзина</Link>
       <Counter/>
       <UsersList/>
       <Todo/>
